@@ -21,6 +21,13 @@ Host github.gatech.edu
     IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
 
+# Mac Mini (LAN)
+Host mac-mini
+    HostName johns-mac-mini.local
+    User johnhill
+    IdentityFile ~/.ssh/id_openclaw_mini
+    IdentitiesOnly yes
+
 # Mac Mini (via Tailscale)
 Host mini
     HostName 100.97.100.61

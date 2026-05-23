@@ -38,10 +38,9 @@ export NVM_DIR="$HOME/.nvm"
 export BUN_INSTALL="$HOME/.bun"
 [ -d "$BUN_INSTALL/bin" ] && export PATH="$BUN_INSTALL/bin:$PATH"
 
-# pyenv
+# pyenv — PATH only; init is handled lazily by .zshrc
 export PYENV_ROOT="$HOME/.pyenv"
 [ -d "$PYENV_ROOT/bin" ] && export PATH="$PYENV_ROOT/bin:$PATH"
-command -v pyenv >/dev/null && eval "$(pyenv init -)"
 
 # go (system install in /usr/local/go)
 [ -d /usr/local/go/bin ] && export PATH="$PATH:/usr/local/go/bin"
@@ -54,4 +53,9 @@ command -v pyenv >/dev/null && eval "$(pyenv init -)"
 # Fall back to starship only if powerlevel10k isn't installed.
 if [[ ! -r ~/powerlevel10k/powerlevel10k.zsh-theme ]] && command -v starship >/dev/null; then
   eval "$(starship init zsh)"
+fi
+
+# Auto-attach to a tmux session on SSH login (skips if already in tmux or not SSH)
+if command -v tmux >/dev/null 2>&1 && [[ -z "$TMUX" ]] && [[ $- == *i* ]] && [[ -n "$SSH_TTY" ]]; then
+  tm
 fi

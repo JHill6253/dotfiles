@@ -18,6 +18,19 @@ alias kys="tmux kill-server"
 alias tmuxa="tmux attach-session -t"
 alias tmuxl="tmux list-sessions"
 
+tm() {
+    command -v tmux >/dev/null 2>&1 || { echo "tmux not installed"; return 1; }
+    local name="${1:-$(basename "$PWD")}"
+    name="${name//./-}"
+    name="${name//:/-}"
+    if [ -n "$TMUX" ]; then
+        tmux has-session -t "$name" 2>/dev/null || tmux new-session -d -s "$name" -c "$PWD"
+        tmux switch-client -t "$name"
+    else
+        tmux attach -t "$name" 2>/dev/null || tmux new -s "$name" -c "$PWD"
+    fi
+}
+
 alias vi="nvim"
 #-------Locations--------
 hash -d repos=$HOME/Repos
